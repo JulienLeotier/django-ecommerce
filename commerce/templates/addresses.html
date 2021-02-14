@@ -4,9 +4,9 @@
     <div class="col-md-3">
         <p class="lead">Mon espace client</p>
         <div class="list-group">
-            <a href="{% url 'commerce:account' %}" class="list-group-item"><i class="fa fa-angle-right"></i>&nbsp; Mes informations personnelles</a>
-            <a href="{% url 'commerce:orders' %}" class="list-group-item"><i class="fa fa-angle-right"></i>&nbsp; Mes commandes</a>
-            <a href="{% url 'commerce:addresses' %}" class="list-group-item active"><i class="fa fa-angle-right"></i>&nbsp; Mes adresses</a>
+            <a href="/account/" class="list-group-item"><i class="fa fa-angle-right"></i>&nbsp; Mes informations personnelles</a>
+            <a href="/orders/" class="list-group-item"><i class="fa fa-angle-right"></i>&nbsp; Mes commandes</a>
+            <a href="/addresses/" class="list-group-item active"><i class="fa fa-angle-right"></i>&nbsp; Mes adresses</a>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
                     <br />Pour commander, commencez par ajouter une adresse en cliquant sur le bouton "Ajouter une adresse".</p>
 
                 {% endfor %}
-                    <a class="btn btn-success pull-right" href="{% url 'commerce:add_address' %}?next={% url 'commerce:addresses' %}">
+                    <a class="btn btn-success pull-right" href="/add-address/?next=/addresses/}">
                         <i class="fa fa-plus"></i> Ajouter une adresse
                     </a>
             </div>

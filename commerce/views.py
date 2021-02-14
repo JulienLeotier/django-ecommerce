@@ -3,7 +3,7 @@ from commerce.models import *
 from commerce.forms import RegisterForm, RegisterFormUpdate, AddAddress
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -36,16 +36,18 @@ def sign_in(request):
                 client.save()
 
                 # On connecte le client
-                user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+                user = authenticate(
+                    username=form.cleaned_data['username'], password=form.cleaned_data['password'])
                 __move_session_cart_to_database_cart(request, client.id)
                 login(request, user)
 
                 if request.GET.get('next', False):
                     return redirect(request.GET['next'])
                 else:
-                    return redirect(reverse('commerce:root'))
+                    return redirect('/')
         else:
-            user = authenticate(username=request.POST['username'], password=request.POST['password'])
+            user = authenticate(
+                username=request.POST['username'], password=request.POST['password'])
             if user is not None:
                 if user.is_active:
                     client = Client.objects.filter(user_id=user.id).first()
@@ -54,7 +56,7 @@ def sign_in(request):
                     if request.GET.get('next', False):
                         return redirect(request.GET['next'])
                     else:
-                        return redirect(reverse('commerce:root'))
+                        return redirect('/')
                 else:
                     messages.add_message(request, messages.ERROR,
                                          'Votre compte a été désactivé, veuillez-contacter le service client.')
@@ -70,7 +72,7 @@ def sign_in(request):
 
 def sign_out(request):
     logout(request)
-    return redirect(reverse('commerce:root'))
+    return redirect('/')
 
 
 def display_category(request, category_id):
@@ -124,10 +126,12 @@ def __move_session_cart_to_database_cart(request, client_id):
     if 'cart' in request.session:
         for product_id, qty in request.session['cart'].iteritems():
             if CartLine.objects.filter(product_id=product_id, client_id=client_id).exists():
-                cart_line = CartLine.objects.get(product_id=product_id, client_id=client_id)
+                cart_line = CartLine.objects.get(
+                    product_id=product_id, client_id=client_id)
                 cart_line.quantity += int(qty)
             else:
-                cart_line = CartLine(product_id=product_id, client_id=client_id, quantity=qty)
+                cart_line = CartLine(product_id=product_id,
+                                     client_id=client_id, quantity=qty)
             cart_line.save()
         del request.session['cart']
     return
@@ -174,7 +178,7 @@ def add_to_cart(request, product_id, qty):
     :param qty: Nombre d'exemplaire du produit à ajouter au panier
     :return:
     """
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         if 'cart' not in request.session:
             cart = dict()
         else:
@@ -189,14 +193,15 @@ def add_to_cart(request, product_id, qty):
     else:
         client = Client.objects.get(user_id=request.user.id)
         if CartLine.objects.filter(product_id=product_id, client_id=client.id).exists():
-            cart_line = CartLine.objects.get(product_id=product_id, client_id=client.id)
+            cart_line = CartLine.objects.get(
+                product_id=product_id, client_id=client.id)
             cart_line.quantity += int(qty)
         else:
-            cart_line = CartLine(product_id=product_id, client_id=client.id, quantity=qty)
+            cart_line = CartLine(product_id=product_id,
+                                 client_id=client.id, quantity=qty)
         cart_line.save()
 
-    lien_panier = '<a style="margin-top:-7px" class="pull-right btn btn-default" href="' + reverse(
-                  'commerce:display_cart') + '"><i class="fa fa-shopping-cart"></i> Voir le panier</a>'
+    lien_panier = '<a style="margin-top:-7px" class="pull-right btn btn-default" href="/"><i class="fa fa-shopping-cart"></i> Voir le panier</a>'
     lien_dismit = '<button data-dismiss="alert" style="margin-top:-7px; margin-right:10px;" ' +\
                   'class="pull-right btn btn-default"><i class="fa fa-close"></i> Continuer mes achats</button>'
     messages.add_message(request, messages.SUCCESS,
@@ -205,7 +210,7 @@ def add_to_cart(request, product_id, qty):
     if request.META.get('HTTP_REFERER'):
         return redirect(request.META.get('HTTP_REFERER'))
     else:
-        return redirect(reverse('commerce:root'))
+        return redirect('/')
 
 
 def clear_cart(request):
@@ -215,7 +220,7 @@ def clear_cart(request):
     :param request:
     :return:
     """
-    if not request.user.is_authenticated() and 'cart' in request.session:
+    if not request.user.is_authenticated and 'cart' in request.session:
         del request.session['cart']
     else:
         client = Client.objects.get(user_id=request.user.id)
@@ -226,7 +231,8 @@ def clear_cart(request):
 
 def display_cart(request):
     total = 0
-    if not request.user.is_authenticated():
+    print(request.user.is_authenticated)
+    if not request.user.is_authenticated:
         if 'cart' in request.session:
             cart = list()
             for product_id, quantity in request.session.get('cart').iteritems():
@@ -249,8 +255,10 @@ def shipping(request):
     addresses_list = Address.objects.filter(client_id=client.id)
 
     if request.method == 'POST' and request.POST['shipping_address'] and request.POST['invoicing_address']:
-        request.session['shipping_address'] = int(request.POST['shipping_address'])
-        request.session['invoicing_address'] = int(request.POST['invoicing_address'])
+        request.session['shipping_address'] = int(
+            request.POST['shipping_address'])
+        request.session['invoicing_address'] = int(
+            request.POST['invoicing_address'])
 
     if 'shipping_address' in request.session and 'invoicing_address' in request.session:
         shipping_address = request.session['shipping_address']
@@ -280,7 +288,7 @@ def add_address(request):
             if request.GET.get('next', False):
                 return redirect(request.GET['next'])
             else:
-                redirect('commerce:addresses')
+                redirect('/addresses/')
     else:
         add_address_form = AddAddress()
     return render(request, 'add_address.html', {'add_address_form': add_address_form})
@@ -290,7 +298,7 @@ def add_address(request):
 def checkout(request):
 
     if 'shipping_address' not in request.session or 'invoicing_address' not in request.session:
-        return redirect(reverse('commerce:shipping'))
+        return redirect(reverse('/shipping/'))
 
     total = 0
     client = Client.objects.get(user_id=request.user.id)
@@ -321,8 +329,8 @@ def checkout(request):
                 order.status = Order.PAID
                 order.stripe_charge_id = charge.id
                 order.save()
-                return redirect(reverse('commerce:confirmation'))
-            except stripe.CardError, e:
+                return redirect(reverse('/confirmation/'))
+            except stripe.CardError as e:
                 # The card has been declined
                 pass
     return render(request, 'checkout.html', {'cart': cart,
@@ -348,8 +356,9 @@ def account(request):
             user.last_name = form.cleaned_data['last_name']
             user.email = form.cleaned_data['email']
             user.save()
-            messages.add_message(request, messages.SUCCESS, "Vos informations ont été correctement mises à jour.")
-            return render(redirect('commerce:account'))
+            messages.add_message(
+                request, messages.SUCCESS, "Vos informations ont été correctement mises à jour.")
+            return render(redirect('/account/'))
     return render(request, 'account.html', {'form': form})
 
 

@@ -77,7 +77,7 @@ class CommerceTest(TestCase):
         Ce test permet de vérifer que la page d'accueil affiche bien 5 produits
         :return:
         """
-        url = reverse('commerce:root')
+        url = '/'
         response = self.client.get(url)
         self.assertTemplateUsed(response, 'index.html')
         self.assertEqual(type(response.context['products']), QuerySet)

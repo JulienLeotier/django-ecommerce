@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <form method="post" action="?next={% url 'commerce:checkout' %}">
+    <form method="post" action="?next=/checkout/">
         {% csrf_token %}
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -48,7 +48,7 @@
                     <br />Pour commander, commencez par ajouter une adresse en cliquant sur le bouton "Ajouter une adresse".</p>
 
                 {% endfor %}
-                    <a class="btn btn-success pull-right" href="{% url 'commerce:add_address' %}?next={% url 'commerce:shipping' %}">
+                    <a class="btn btn-success pull-right" href="/add_address/?next=/shipping/">
                         <i class="fa fa-plus"></i> Ajouter une adresse
                     </a>
             </div>
@@ -78,7 +78,7 @@
                     <br />Pour commander, commencez par ajouter une adresse en cliquant sur le bouton "Ajouter une adresse".</p>
 
                 {% endfor %}
-                    <a class="btn btn-success pull-right" href="{% url 'commerce:shipping' %}?next={% url 'commerce:add_address' %}?next={% url 'commerce:shipping' %}">
+                    <a class="btn btn-success pull-right" href="/shipping/?next=/add_address/?next=/shipping/">
                         <i class="fa fa-plus"></i> Ajouter une adresse
                     </a>
             </div>

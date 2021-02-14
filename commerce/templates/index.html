@@ -7,7 +7,7 @@
                 <p class="lead">Rayons</p>
                 <div class="list-group">
                     {% for category in categories %}
-                        <a href="{% url 'commerce:display_category' category.id %}" class="list-group-item"><i class="fa fa-angle-right"></i>&nbsp; {{ category.name }}</a>
+                        <a href="/category/{{category.id}}" class="list-group-item"><i class="fa fa-angle-right"></i>&nbsp; {{ category.name }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -28,7 +28,7 @@
                                     <div class="item{% if forloop.counter0 == 0 %} active{% endif %}">
                                         <img class="slide-image" src="/media/{{ picture.photo }}" />
                                         <div class="carousel-caption">
-                                            <h3><a style="color:white" href="{% url 'commerce:display_product' picture.product.id %}">{{ picture.product.name }}</a></h3>
+                                            <h3><a style="color:white" href="/product/{{picture.product.id}}">{{ picture.product.name }}</a></h3>
                                             <p>{{ picture.product.short_desc }}</p>
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                                 {% endif %}
                                 <div class="caption">
                                     <h4 class="pull-right">{{ product.price_including_vat }} €</h4>
-                                    <h4><a href="{% url 'commerce:display_product' product.id %}">{{ product.name }}</a>
+                                    <h4><a href="/product/{{product.id}}">{{ product.name }}</a>
                                     </h4>
                                     <p>{{ product.short_desc }}</p>
                                 </div>
@@ -76,7 +76,6 @@
                                 -->
                             </div>
                         </div>
-                        <!-- <a href="{% url 'commerce:add_to_cart' product.id 1 %}">Ajouter au panier</a> -->
                     {% endfor %}
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
