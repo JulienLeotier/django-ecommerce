@@ -124,7 +124,7 @@ def __move_session_cart_to_database_cart(request, client_id):
     :return:
     """
     if 'cart' in request.session:
-        for product_id, qty in request.session['cart'].iteritems():
+        for product_id, qty in request.session['cart'].items():
             if CartLine.objects.filter(product_id=product_id, client_id=client_id).exists():
                 cart_line = CartLine.objects.get(
                     product_id=product_id, client_id=client_id)
@@ -235,7 +235,7 @@ def display_cart(request):
     if not request.user.is_authenticated:
         if 'cart' in request.session:
             cart = list()
-            for product_id, quantity in request.session.get('cart').iteritems():
+            for product_id, quantity in request.session.get('cart').items():
                 cart_line = CartLine(product_id=product_id, quantity=quantity)
                 total += cart_line.total()
                 list.append(cart, cart_line)

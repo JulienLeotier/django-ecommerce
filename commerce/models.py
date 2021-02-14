@@ -248,3 +248,14 @@ class CartLine(models.Model):
     def total(self):
         return round((self.product.price * float(self.quantity)) +
                      (self.product.price * float(self.quantity) * self.product.vat.percent), 2)
+
+class Faq(models.Model):
+    """
+        La faq permets de poser des questions et de répondre au question des utilisateurs
+    """
+
+    question = models.CharField(max_length=250, verbose_name="Question", blank=False)
+    responce = models.CharField(max_length=250, verbose_name="Responce", blank=False)
+
+    def __str__(self) -> str:
+        return self.question

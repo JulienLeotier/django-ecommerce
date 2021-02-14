@@ -1,4 +1,5 @@
 # AstuceOne - django powered e-commerce Project
+
 /*Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design*/
 
 ## Licence
@@ -45,12 +46,17 @@ voir *Requirement.txt*
 ### Tests unitaires/d'intégration
 
 - Une grande partie de l'application a été testée de façon unitaire :
-    - couverture de code de **68%** pour *views.py*
-    - couverture de code de **94%** pour *models.py*
-
+- couverture de code de **68%** pour *views.py*
+- couverture de code de **94%** pour *models.py*
 
 ## Screenshots
 
 ![Aperçu](screenshots/root.png)
 
 D'autres captures dans le répertoire **screenshots/**
+
+## To do
+
+- Paypal
+- Faq => Front-end
+- Devis à faire
