@@ -201,7 +201,7 @@ def add_to_cart(request, product_id, qty):
                                  client_id=client.id, quantity=qty)
         cart_line.save()
 
-    lien_panier = '<a style="margin-top:-7px" class="pull-right btn btn-default" href="/"><i class="fa fa-shopping-cart"></i> Voir le panier</a>'
+    lien_panier = '<a style="margin-top:-7px" class="pull-right btn btn-default" href="/cart/"><i class="fa fa-shopping-cart"></i> Voir le panier</a>'
     lien_dismit = '<button data-dismiss="alert" style="margin-top:-7px; margin-right:10px;" ' +\
                   'class="pull-right btn btn-default"><i class="fa fa-close"></i> Continuer mes achats</button>'
     messages.add_message(request, messages.SUCCESS,

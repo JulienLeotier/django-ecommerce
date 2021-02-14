@@ -1,4 +1,4 @@
-# Microgames - django powered e-commerce Project
+# AstuceOne - django powered e-commerce Project
 /*Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design*/
 
 ## Licence
